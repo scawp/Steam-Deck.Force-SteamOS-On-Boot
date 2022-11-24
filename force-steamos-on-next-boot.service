@@ -1,0 +1,10 @@
+[Unit]
+Description=Force SteamOS on next Boot
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/bash -c "sudo efibootmgr -n0001"
+
+[Install]
+WantedBy=multi-user.target
