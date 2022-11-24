@@ -48,6 +48,8 @@ echo "Copying $tmp_dir/force-steamos-on-next-boot.service to $service_install_di
 sudo cp "$tmp_dir/force-steamos-on-next-boot.service" "$service_install_dir/force-steamos-on-next-boot.service"
 
 echo "Starting Service"
+sudo systemctl enable force-steamos-on-next-boot.service
 sudo systemctl start force-steamos-on-next-boot.service
+
 
 echo "Done."
