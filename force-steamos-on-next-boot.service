@@ -4,7 +4,7 @@ Description=Force SteamOS on next Boot
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/bin/bash -c "sudo efibootmgr -n0001"
+ExecStart=/bin/bash -c "sudo efibootmgr -n$(efibootmgr | grep BootCurrent | sed -e 's/BootCurrent://')"
 
 [Install]
 WantedBy=multi-user.target
