@@ -30,6 +30,28 @@ mkdir -p "$tmp_dir"
 echo "Downloading Required Files"
 curl -o "$tmp_dir/force-steamos-on-next-boot.service" "$repo_url/force-steamos-on-next-boot.service"
 
+set +e
+
+zenity --question --width=400 \
+  --text="Configuration Type:" \
+  --cancel-label="Auto (SteamOS)" \
+  --ok-label="Manual"
+
+if [ "$?" = 0 ]; then
+  IFS=$'[\t|\n]';
+  selected_boot=$(zenity --list --title="Select Default Boot Devive" \
+    --width=400 --height=400 --print-column=2 --separator="\t" \
+    --ok-label "Save" --cancel-label="Auto (SteamOS)" \
+    --radiolist --column="check" --column="Boot No." --column="Name" \
+    $(efibootmgr | grep -Po "Boot[0-9].*\t" | sed -e "s/*/\t/" -e "s/^/FALSE\t/"))
+  unset IFS;
+
+  if [ "$?" = 0 ] && [ "$selected_boot" != "" ]; then
+    replace="(efibootmgr | grep BootCurrent | sed -e 's/BootCurrent://')"
+    sed -i "s&\$$replace&$(echo $selected_boot | sed -e "s/Boot//")&g" "$tmp_dir/force-steamos-on-next-boot.service"
+  fi
+fi
+
 echo "Copying $tmp_dir/force-steamos-on-next-boot.service to $service_install_dir/force-steamos-on-next-boot.service"
 sudo cp "$tmp_dir/force-steamos-on-next-boot.service" "$service_install_dir/force-steamos-on-next-boot.service"
 

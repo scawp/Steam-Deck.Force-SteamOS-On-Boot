@@ -1,6 +1,9 @@
 # Steam-Deck.Force-SteamOS-On-Boot
-When Dual Booting, This Script will Force SteamOS to Boot when Powering on rather than Windows
+When Dual Booting, This Script will Force SteamOS to Boot back into SteamOS when Powering on rather than Windows
 
+The Script can also be manually configured to Boot into other OSes from the install script as such:
+
+<img src="img/Select.png" width="80%" />
 
 # How Does this work?
 
