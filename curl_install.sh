@@ -59,5 +59,10 @@ echo "Starting Service"
 sudo systemctl enable force-steamos-on-next-boot.service
 sudo systemctl start force-steamos-on-next-boot.service
 
+if [ "$selected_boot" != "" ]; then
+  sudo efibootmgr -n$(echo $selected_boot | sed -e "s/Boot//")
+else
+  sudo efibootmgr -n$(efibootmgr | grep BootCurrent | sed -e 's/BootCurrent://')
+fi
 
 echo "Done."
